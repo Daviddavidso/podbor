@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Панель управления — ПОДБОР</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e9e8e6;--card:#f6f5f3;--white:#fff;--ink:#111214;--ink2:#5f5f66;
+  --hair:rgba(17,18,20,.08);--r:18px;--pill:999px;
+  --shadow:0 1px 2px rgba(17,18,20,.04),0 16px 40px -20px rgba(17,18,20,.16);
+  --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5;padding:20px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:6px}
+.wrap{max-width:980px;margin:0 auto}
+h1{font-size:26px;letter-spacing:-.02em;font-weight:800}
+h2{font-size:18px;letter-spacing:-.01em;margin-bottom:12px}
+.muted{color:var(--ink2);font-size:13px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.badge{background:var(--white);border:1px solid var(--hair);border-radius:var(--pill);padding:6px 14px;font-size:12px;font-weight:600;color:var(--ink2)}
+.card{background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:var(--pill);
+  padding:11px 20px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;background:var(--ink);color:#fff}
+.btn:hover{background:#24252a}
+.btn-light{background:var(--white);color:var(--ink);border-color:var(--hair)}
+.btn-light:hover{background:#fbfaf9}
+.btn-danger{background:#fff0f0;color:#b3261e;border-color:#f3d5d3}
+.btn-danger:hover{background:#ffe4e2}
+.btn-sm{padding:7px 14px;font-size:13px}
+label{display:block;font-size:12.5px;font-weight:700;margin-bottom:5px}
+input[type=text],input[type=url],input[type=password],textarea,select{
+  width:100%;font-family:inherit;font-size:14px;color:var(--ink);
+  background:var(--white);border:1px solid rgba(17,18,20,.14);border-radius:12px;padding:10px 12px}
+input::placeholder,textarea::placeholder{color:#8a8a90}
+textarea{min-height:74px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--ink);outline-offset:1px}
+fieldset{border:1px solid var(--hair);border-radius:16px;padding:14px;margin-top:12px}
+legend{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);padding:0 6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field{margin-bottom:12px}
+.offer-row{background:var(--white);border:1px solid var(--hair);border-radius:20px;box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden}
+.offer-row>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer}
+.offer-row>summary::-webkit-details-marker{display:none}
+.offer-row[open]>summary{border-bottom:1px solid var(--hair)}
+.row-logo{width:38px;height:38px;flex:none;border-radius:11px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;overflow:hidden}
+.row-logo img{width:100%;height:100%;object-fit:cover}
+.row-name{font-weight:700;flex:1}
+.row-cat{font-size:12px;color:var(--ink2)}
+.row-body{padding:18px}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.status{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;
+  border-radius:var(--pill);padding:12px 22px;font-weight:600;font-size:14px;box-shadow:0 20px 40px -12px rgba(0,0,0,.4);
+  opacity:0;pointer-events:none;transition:opacity .25s}
+.status.show{opacity:1}
+.login{max-width:400px;margin:10vh auto}
+.hint{font-size:12.5px;color:var(--ink2);margin-top:6px}
+.err{color:#b3261e;font-size:13px;font-weight:600;margin-top:8px}
+.hidden{display:none!important}
+@media(max-width:720px){.grid2,.grid3{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ═══ ВХОД ═══ -->
+<div class="login card" id="login-card">
+  <h1 style="margin-bottom:6px">Панель управления</h1>
+  <p class="muted" style="margin-bottom:18px">Введите пароль, чтобы редактировать витрину.</p>
+  <form id="login-form">
+    <div class="field">
+      <label for="pass">Пароль</label>
+      <input type="password" id="pass" autocomplete="current-password" required>
+      <p class="err hidden" id="pass-err" role="alert">Неверный пароль, попробуйте ещё раз.</p>
+    </div>
+    <button class="btn" type="submit">Войти</button>
+  </form>
+</div>
+
+<!-- ═══ ПАНЕЛЬ ═══ -->
+<div class="wrap hidden" id="panel">
+  <div class="topbar">
+    <div>
+      <h1>Витрина · админка</h1>
+      <p class="muted">Правки сохраняются в этом браузере и сразу видны на сайте. Для публикации на хостинг — «Скачать data.js».</p>
+    </div>
+    <span class="badge" id="count-badge">0 офферов</span>
+  </div>
+
+  <div class="card">
+    <h2>Настройки сайта</h2>
+    <div class="grid3">
+      <div class="field">
+        <label for="site-brand">Название (бренд)</label>
+        <input type="text" id="site-brand">
+      </div>
+      <div class="field">
+        <label for="site-updated">Дата «обновлено»</label>
+        <input type="text" id="site-updated" placeholder="например 27.08.2026">
+      </div>
+      <div class="field">
+        <label for="site-tagline">Подпись бренда</label>
+        <input type="text" id="site-tagline">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="topbar" style="margin-bottom:14px">
+      <h2 style="margin:0">Предложения</h2>
+      <button class="btn btn-sm" type="button" id="add-btn">+ Добавить оффер</button>
+    </div>
+    <div id="offers-list"></div>
+  </div>
+
+  <div class="card">
+    <h2>Сохранение</h2>
+    <div class="toolbar">
+      <button class="btn" type="button" id="save-btn">Сохранить на сайт</button>
+      <button class="btn btn-light" type="button" id="export-btn">Скачать data.js</button>
+      <a class="btn btn-light" href="index.html" target="_blank" rel="noopener">Открыть сайт<span class="visually-hidden"> (откроется в новой вкладке)</span></a>
+      <button class="btn btn-danger" type="button" id="reset-btn">Сбросить правки</button>
+    </div>
+    <p class="hint">«Сохранить» — правки применяются в этом браузере (localStorage), сайт их подхватывает мгновенно.
+    «Скачать data.js» — файл для загрузки на хостинг вместо старого, тогда правки увидят все посетители.</p>
+  </div>
+</div>
+
+<p class="status" id="status" role="status" aria-live="polite"></p>
+
+<script src="data.js"></script>
+<script>
+(function(){
+"use strict";
+var PASS = "podbor2026";
+var CATS = { credit:"Кредитные карты", debit:"Дебетовые карты", mfo:"Займы онлайн", rko:"Бизнес и РКО" };
+
+var data = load();
+function load(){
+  try{
+    var raw = localStorage.getItem("vitrina_data");
+    if(raw){ var p = JSON.parse(raw); if(p && p.offers) return p; }
+  }catch(e){}
+  return JSON.parse(JSON.stringify(window.VITRINA || {brand:"ПОДБОР",offers:[]}));
+}
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+var statusEl = document.getElementById("status");
+var statusTimer;
+function say(msg){
+  statusEl.textContent = msg;
+  statusEl.classList.add("show");
+  clearTimeout(statusTimer);
+  statusTimer = setTimeout(function(){ statusEl.classList.remove("show"); }, 2600);
+}
+
+/* ── вход ── */
+var loginForm = document.getElementById("login-form");
+var passInput = document.getElementById("pass");
+var passErr = document.getElementById("pass-err");
+loginForm.addEventListener("submit", function(e){
+  e.preventDefault();
+  if(passInput.value === PASS){
+    sessionStorage.setItem("vitrina_auth","1");
+    unlock();
+  }else{
+    passErr.classList.remove("hidden");
+    passInput.setAttribute("aria-invalid","true");
+    passInput.focus();
+  }
+});
+function unlock(){
+  document.getElementById("login-card").classList.add("hidden");
+  document.getElementById("panel").classList.remove("hidden");
+  renderAll();
+}
+if(sessionStorage.getItem("vitrina_auth")==="1") unlock();
+
+/* ── настройки сайта ── */
+var brandI = document.getElementById("site-brand");
+var updI = document.getElementById("site-updated");
+var tagI = document.getElementById("site-tagline");
+function bindSite(){
+  brandI.value = data.brand || "";
+  updI.value = data.updated || "";
+  tagI.value = data.tagline || "";
+}
+brandI.addEventListener("input",function(){ data.brand = brandI.value; });
+updI.addEventListener("input",function(){ data.updated = updI.value; });
+tagI.addEventListener("input",function(){ data.tagline = tagI.value; });
+
+/* ── список офферов ── */
+var listEl = document.getElementById("offers-list");
+var countBadge = document.getElementById("count-badge");
+
+function catOptions(sel){
+  return Object.keys(CATS).map(function(k){
+    return '<option value="'+k+'"'+(k===sel?" selected":"")+'>'+CATS[k]+"</option>";
+  }).join("");
+}
+
+function rowLogoHtml(o){
+  var l = o.logo||{};
+  if(l.type==="img" && l.value) return '<span class="row-logo"><img src="'+esc(l.value)+'" alt=""></span>';
+  return '<span class="row-logo" style="background:'+esc(l.bg||"#111214")+';color:'+esc(l.fg||"#fff")+'" aria-hidden="true">'+esc(l.value||"•")+"</span>";
+}
+
+function renderList(){
+  countBadge.textContent = data.offers.length + " офферов";
+  listEl.innerHTML = data.offers.map(function(o,i){
+    var l = o.logo||{};
+    return '<details class="offer-row" data-i="'+i+'">'+
+    '<summary>'+rowLogoHtml(o)+
+      '<span class="row-name">'+esc(o.name||"Без названия")+'</span>'+
+      '<span class="row-cat">'+esc(CATS[o.cat]||"")+(o.badge?' · '+esc(o.badge):'')+'</span>'+
+    '</summary>'+
+    '<div class="row-body">'+
+      '<div class="grid2">'+
+        '<div class="field"><label for="f-name-'+i+'">Название</label><input type="text" id="f-name-'+i+'" data-f="name" value="'+esc(o.name)+'"></div>'+
+        '<div class="field"><label for="f-cat-'+i+'">Категория</label><select id="f-cat-'+i+'" data-f="cat">'+catOptions(o.cat)+'</select></div>'+
+      '</div>'+
+      '<div class="grid3">'+
+        '<div class="field"><label for="f-tagline-'+i+'">Подпись (тип продукта)</label><input type="text" id="f-tagline-'+i+'" data-f="tagline" value="'+esc(o.tagline)+'"></div>'+
+        '<div class="field"><label for="f-big-'+i+'">Крупная цифра</label><input type="text" id="f-big-'+i+'" data-f="big" value="'+esc(o.big)+'" placeholder="до 55 дней"></div>'+
+        '<div class="field"><label for="f-bignote-'+i+'">Подпись к цифре</label><input type="text" id="f-bignote-'+i+'" data-f="bigNote" value="'+esc(o.bigNote)+'" placeholder="без процентов"></div>'+
+      '</div>'+
+      '<div class="grid2">'+
+        '<div class="field"><label for="f-chips-'+i+'">Чипы (через запятую)</label><input type="text" id="f-chips-'+i+'" data-f="chips" value="'+esc((o.chips||[]).join(", "))+'"></div>'+
+        '<div class="field"><label for="f-badge-'+i+'">Бейдж (пусто = нет)</label><input type="text" id="f-badge-'+i+'" data-f="badge" value="'+esc(o.badge||"")+'" placeholder="Хит"></div>'+
+      '</div>'+
+      '<div class="field"><label for="f-features-'+i+'">Пункты списка (каждый с новой строки)</label>'+
+        '<textarea id="f-features-'+i+'" data-f="features">'+esc((o.features||[]).join("\n"))+'</textarea></div>'+
+      '<div class="field"><label for="f-link-'+i+'">Партнёрская ссылка</label><input type="url" id="f-link-'+i+'" data-f="link" value="'+esc(o.link)+'" placeholder="https://…"></div>'+
+      '<fieldset><legend>Логотип</legend>'+
+        '<div class="grid3">'+
+          '<div class="field"><label for="f-lval-'+i+'">Буква</label><input type="text" id="f-lval-'+i+'" data-f="logo.value" value="'+esc(l.type==="img"?"":l.value)+'" maxlength="2"></div>'+
+          '<div class="field"><label for="f-lbg-'+i+'">Цвет фона</label><input type="text" id="f-lbg-'+i+'" data-f="logo.bg" value="'+esc(l.bg||"#111214")+'" placeholder="#ffdd2d"></div>'+
+          '<div class="field"><label for="f-lfg-'+i+'">Цвет буквы</label><input type="text" id="f-lfg-'+i+'" data-f="logo.fg" value="'+esc(l.fg||"#ffffff")+'" placeholder="#111"></div>'+
+        '</div>'+
+        '<div class="field"><label for="f-limg-'+i+'">Или картинка (заменяет букву)</label>'+
+          '<input type="file" id="f-limg-'+i+'" data-f="logo.img" accept="image/*">'+
+          (l.type==="img"?'<p class="hint">Сейчас стоит картинка. <button type="button" class="btn btn-light btn-sm" data-act="clear-img" data-i="'+i+'">Убрать картинку</button></p>':"")+
+        '</div>'+
+      '</fieldset>'+
+      '<div class="row-actions">'+
+        '<button type="button" class="btn btn-light btn-sm" data-act="up" data-i="'+i+'" aria-label="Выше — '+esc(o.name)+'">↑ Выше</button>'+
+        '<button type="button" class="btn btn-light btn-sm" data-act="down" data-i="'+i+'" aria-label="Ниже — '+esc(o.name)+'">↓ Ниже</button>'+
+        '<button type="button" class="btn btn-danger btn-sm" data-act="del" data-i="'+i+'" aria-label="Удалить — '+esc(o.name)+'">Удалить</button>'+
+      '</div>'+
+    '</div></details>';
+  }).join("") || '<p class="muted">Пока нет ни одного оффера — нажмите «Добавить».</p>';
+}
+
+/* ── события полей (делегирование) ── */
+listEl.addEventListener("input", function(e){
+  var t = e.target, f = t.getAttribute("data-f");
+  if(!f) return;
+  var row = t.closest(".offer-row");
+  var o = data.offers[+row.getAttribute("data-i")];
+  if(!o) return;
+  if(f==="chips"){ o.chips = t.value.split(",").map(function(s){return s.trim();}).filter(Boolean); }
+  else if(f==="features"){ o.features = t.value.split("\n").map(function(s){return s.trim();}).filter(Boolean); }
+  else if(f==="badge"){ o.badge = t.value.trim()||null; }
+  else if(f.indexOf("logo.")===0){
+    o.logo = o.logo||{};
+    var k = f.split(".")[1];
+    if(k==="value"){ o.logo.type="letter"; o.logo.value=t.value; }
+    else o.logo[k]=t.value;
+  }
+  else { o[f]=t.value; }
+});
+
+listEl.addEventListener("change", function(e){
+  var t = e.target;
+  if(t.getAttribute("data-f")==="logo.img" && t.files && t.files[0]){
+    var row = t.closest(".offer-row");
+    var o = data.offers[+row.getAttribute("data-i")];
+    var r = new FileReader();
+    r.onload = function(){
+      o.logo = { type:"img", value:r.result };
+      renderList();
+      say("Картинка загружена");
+    };
+    r.readAsDataURL(t.files[0]);
+  }
+});
+
+listEl.addEventListener("click", function(e){
+  var b = e.target.closest("[data-act]");
+  if(!b) return;
+  var i = +b.getAttribute("data-i");
+  var act = b.getAttribute("data-act");
+  if(act==="del"){
+    var name = data.offers[i] ? data.offers[i].name : "";
+    if(!confirm("Удалить «"+name+"»?")) return;
+    data.offers.splice(i,1);
+    renderList();
+    say("Оффер удалён");
+    var first = listEl.querySelector("summary");
+    if(first) first.focus();
+  }
+  if(act==="up" && i>0){
+    var t1=data.offers[i]; data.offers[i]=data.offers[i-1]; data.offers[i-1]=t1;
+    renderList(); say("Перемещено выше");
+  }
+  if(act==="down" && i<data.offers.length-1){
+    var t2=data.offers[i]; data.offers[i]=data.offers[i+1]; data.offers[i+1]=t2;
+    renderList(); say("Перемещено ниже");
+  }
+  if(act==="clear-img"){
+    data.offers[i].logo = { type:"letter", value:(data.offers[i].name||"•").charAt(0).toUpperCase(), bg:"#111214", fg:"#fff" };
+    renderList(); say("Картинка убрана");
+  }
+});
+
+/* ── добавить ── */
+document.getElementById("add-btn").addEventListener("click", function(){
+  data.offers.unshift({
+    id: "offer-" + Date.now(),
+    cat: "credit",
+    name: "Новый оффер",
+    logo: { type:"letter", value:"Н", bg:"#111214", fg:"#fff" },
+    tagline: "Кредитная карта",
+    big: "", bigNote: "",
+    chips: [], features: [],
+    badge: null, link: "#"
+  });
+  renderList();
+  var first = listEl.querySelector(".offer-row");
+  if(first){ first.setAttribute("open",""); var inp=first.querySelector("input"); if(inp) inp.focus(); }
+  say("Оффер добавлен — заполните поля");
+});
+
+/* ── сохранение ── */
+document.getElementById("save-btn").addEventListener("click", function(){
+  try{
+    localStorage.setItem("vitrina_data", JSON.stringify(data));
+    say("Сохранено — обновите вкладку с сайтом");
+  }catch(e){ say("Ошибка: хранилище недоступно"); }
+});
+
+document.getElementById("export-btn").addEventListener("click", function(){
+  var txt = "/* Сгенерировано панелью " + new Date().toLocaleString("ru-RU") + " */\n" +
+            "window.VITRINA = " + JSON.stringify(data, null, 2) + ";\n";
+  var blob = new Blob([txt], {type:"text/javascript;charset=utf-8"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "data.js";
+  document.body.appendChild(a); a.click(); a.remove();
+  say("data.js скачан — залейте его на хостинг");
+});
+
+document.getElementById("reset-btn").addEventListener("click", function(){
+  if(!confirm("Сбросить все правки и вернуться к данным из data.js?")) return;
+  localStorage.removeItem("vitrina_data");
+  data = JSON.parse(JSON.stringify(window.VITRINA));
+  renderAll();
+  say("Правки сброшены");
+});
+
+function renderAll(){ bindSite(); renderList(); }
+})();
+</script>
+</body>
+</html>
