@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260904">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23111214'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>П</text></svg>">
 </head>
 <body>
@@ -17,6 +17,7 @@
   <div class="shell">
 
     <!-- ═══════════ HERO CARD ═══════════ -->
+    <div class="hero-scene">
     <section class="super-card hero-card" aria-label="Главный экран">
       <header class="topbar">
         <a class="brand" href="#top" id="top">
@@ -44,7 +45,7 @@
         </p>
         <div class="hero-cta">
           <a class="btn btn-dark" href="#catalog">Смотреть предложения</a>
-          <a class="btn btn-light" href="#why">Как это работает</a>
+          <a class="btn btn-light" href="#steps">Как это работает</a>
         </div>
         <ul class="check-chips" aria-label="Преимущества">
           <li><svg class="i-check" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8"/><path class="tick" d="M4.5 8.2l2.3 2.3 4.7-4.8"/></svg>Решение онлайн</li>
@@ -74,6 +75,7 @@
         </ul>
       </div>
     </section>
+    </div>
 
     <!-- ═══════════ ABOUT STATEMENT ═══════════ -->
     <section class="statement" aria-label="О сервисе">
@@ -82,6 +84,9 @@
         продуктов <span class="dim">для тех, кто не хочет собирать отказы
         и сравнивать сотни условий вручную.</span>
       </h2>
+      <div class="statement-strip">
+        <p class="strip-chip"><svg class="i-check" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8"/><path class="tick" d="M4.5 8.2l2.3 2.3 4.7-4.8"/></svg>Условия сверяем каждый день — только банки и МФО из реестра ЦБ РФ</p>
+      </div>
     </section>
 
     <!-- ═══════════ CATEGORIES ═══════════ -->
@@ -91,7 +96,7 @@
       <ul class="cats-grid">
         <li>
           <a class="cat-card cat-credit" href="#catalog" data-goto-cat="credit">
-            <span class="cat-icon" aria-hidden="true">
+            <span class="cat-icon ci-blue" aria-hidden="true">
               <svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 9.5h19" class="stroke"/><rect x="5.5" y="13.5" width="6" height="2.4" rx="1.2" class="lite"/></svg>
             </span>
             <span class="cat-body">
@@ -102,7 +107,7 @@
         </li>
         <li>
           <a class="cat-card cat-debit" href="#catalog" data-goto-cat="debit">
-            <span class="cat-icon" aria-hidden="true">
+            <span class="cat-icon ci-green" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M12 3l8 3.5v5c0 5-3.4 8.3-8 9.5-4.6-1.2-8-4.5-8-9.5v-5L12 3z"/><path class="tickw" d="M8.6 11.8l2.4 2.4 4.6-4.7"/></svg>
             </span>
             <span class="cat-body">
@@ -113,7 +118,7 @@
         </li>
         <li>
           <a class="cat-card cat-mfo" href="#catalog" data-goto-cat="mfo">
-            <span class="cat-icon" aria-hidden="true">
+            <span class="cat-icon ci-amber" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M13.5 2.5L5 13.5h5l-1.5 8L20 10.5h-5.5l-1-8z"/></svg>
             </span>
             <span class="cat-body">
@@ -124,7 +129,7 @@
         </li>
         <li>
           <a class="cat-card cat-rko" href="#catalog" data-goto-cat="rko">
-            <span class="cat-icon" aria-hidden="true">
+            <span class="cat-icon ci-violet" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M3.5 20.5h17M5 20.5V10m4.7 10.5V10m4.6 10.5V10M19 20.5V10M2.8 9.5L12 3l9.2 6.5H2.8z"/></svg>
             </span>
             <span class="cat-body">
@@ -137,7 +142,7 @@
     </section>
 
     <!-- ═══════════ CATALOG CARD ═══════════ -->
-    <section class="super-card catalog-card" id="catalog" aria-labelledby="catalog-title">
+    <section class="super-card catalog-card" id="catalog" aria-labelledby="catalog-title" tabindex="-1">
       <p class="chip-label">Витрина</p>
       <h2 class="section-title" id="catalog-title">Актуальные предложения</h2>
 
@@ -165,6 +170,7 @@
       <h2 class="section-title" id="why-title">Выше шанс одобрения</h2>
 
       <div class="why-grid">
+        <div class="why-visual">
         <div class="why-stats glass-card">
           <p class="mono-label">Одобрение · заявки за август</p>
           <div class="bar-row">
@@ -180,6 +186,7 @@
             <li><svg class="i-check" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8"/><path class="tick" d="M4.5 8.2l2.3 2.3 4.7-4.8"/></svg>Решение от 3 минут</li>
             <li><svg class="i-check" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8"/><path class="tick" d="M4.5 8.2l2.3 2.3 4.7-4.8"/></svg>0 ₽ комиссия</li>
           </ul>
+        </div>
         </div>
 
         <div class="why-points">
@@ -297,7 +304,7 @@
     </section>
 
     <!-- ═══════════ REVIEWS ═══════════ -->
-    <section class="section reviews" id="reviews" aria-labelledby="reviews-title">
+    <section class="super-card reviews-card" id="reviews" aria-labelledby="reviews-title">
       <p class="chip-label">Отзывы</p>
       <h2 class="section-title" id="reviews-title">Люди уже оформили</h2>
       <ul class="bubbles">
@@ -395,7 +402,7 @@
 
   </div>
 
-  <script src="data.js"></script>
-  <script src="js/main.js"></script>
+  <script src="data.js?v=20260904"></script>
+  <script src="js/main.js?v=20260904"></script>
 </body>
 </html>
